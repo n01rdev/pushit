@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./push-it-api/api
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/pushit
+      - SPRING_DATASOURCE_USERNAME=pushit
+      - SPRING_DATASOURCE_PASSWORD=pushit123
+
+  db:
+    image: 'postgres:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=pushit
+      - POSTGRES_USER=pushit
+      - POSTGRES_PASSWORD=pushit123
+
+  frontend:
+    build:
+      context: ./push-it-client/client
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+        - app
