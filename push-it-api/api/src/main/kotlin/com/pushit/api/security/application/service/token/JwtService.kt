@@ -1,4 +1,4 @@
-package com.pushit.api.security.application.service
+package com.pushit.api.security.application.service.token
 
 import com.pushit.api.security.domain.service.token.IJwtService
 import io.jsonwebtoken.Claims
@@ -30,7 +30,7 @@ class JwtService: IJwtService {
             .subject(userDetails.username)
             .setIssuedAt(Date(System.currentTimeMillis()))
             .expiration(Date(System.currentTimeMillis() + 3600 * 1000)) // 1 Hour
-            .signWith(signInKey(), SignatureAlgorithm.ES256) // TODO: Migrate to a new non-deprecated version | No time for implementing in demo
+            .signWith(signInKey(), SignatureAlgorithm.HS256) // TODO: Migrate to a new non-deprecated version | No time for implementing in demo
             .compact()
     }
 
@@ -66,9 +66,7 @@ class JwtService: IJwtService {
     }
 
     private fun signInKey(): Key {
-
         val keyBytes = Decoders.BASE64.decode(SECRET_KEY)
-
         return Keys.hmacShaKeyFor(keyBytes)
     }
 }

@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://db:5432/pushit
-    username: postgres
-    password: postgres
+    username: pushit
+    password: pushit123
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -14,3 +14,5 @@ spring:
       show_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+debug: true
+trace: true

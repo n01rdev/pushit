@@ -1,6 +1,6 @@
 package com.pushit.api.security.filter
 
-import com.pushit.api.security.application.service.JwtService
+import com.pushit.api.security.application.service.token.JwtService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

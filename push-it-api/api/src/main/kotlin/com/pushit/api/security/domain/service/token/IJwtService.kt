@@ -1,6 +1,6 @@
 package com.pushit.api.security.domain.service.token
 
-import io.jsonwebtoken.Claims //TODO: Remove dependencu making domain agnostic & Implementing Mapper | No time for implementing in demo
+import io.jsonwebtoken.Claims //TODO: Remove dependeny making domain agnostic & Implementing Mapper | No time for implementing in demo
 import org.springframework.security.core.userdetails.UserDetails
 
 interface IJwtService {

@@ -1,5 +1,5 @@
 FROM gradle:8.5-jdk21 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
+COPY --chown=gradle:gradle .. /home/gradle/src
 WORKDIR /home/gradle/src
 COPY gradle.properties /home/gradle/.gradle/
 ENV SPRING_PROFILES_ACTIVE=test

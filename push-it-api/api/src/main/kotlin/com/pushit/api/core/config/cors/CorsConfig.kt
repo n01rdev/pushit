@@ -1,4 +1,4 @@
-package com.nebrija.pushit.api.core.cors
+package com.pushit.api.core.config.cors
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
