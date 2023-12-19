@@ -28,7 +28,16 @@ class SecurityRepository (
         return authEntity?.let { mapper.toDomain(it) }
     }
 
+    override fun findByUuid(uuid: String): User? {
+        val authEntity = jpaRepository.findByUuid(uuid)
+        return authEntity?.let { mapper.toDomain(it) }
+    }
+
     fun findByEmailEntity(email: String): AuthEntity? {
         return jpaRepository.findByEmail(email)
+    }
+
+    fun findByUuidEntity(uuid: String): AuthEntity? {
+        return jpaRepository.findByUuid(uuid)
     }
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface IJpaSecurityRepository: JpaRepository<AuthEntity, Int> {
     fun findByEmail(email: String): AuthEntity?
+    fun findByUuid(uuid: String): AuthEntity?
 }

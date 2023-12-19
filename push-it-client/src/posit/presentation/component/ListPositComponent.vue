@@ -9,24 +9,51 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
-import {io, Socket} from 'socket.io-client';
+import webstomp from 'webstomp-client';
 import { Posit } from '../../domain/model/Posit';
+import { IsAuthenticatedService } from "../../../security/application/service/isAuthenticatedService.ts";
 
 export default defineComponent({
   setup() {
     const posits = ref<Posit[]>([]);
-    let socket: Socket
+    let client: webstomp.Client;
+
+    const isAuthenticated = new IsAuthenticatedService();
 
     onMounted(() => {
-      socket = io('http://localhost:8080');
+      if (!isAuthenticated.check()) {
+        window.location.href = '/login';
+        return;
+      }
 
-      socket.on('newPost', (newPosit) => {
-        posits.value.push(newPosit);
+      const token = localStorage.getItem('authToken');
+      const socket = new WebSocket(`ws://localhost:8080/websocket`);
+      client = webstomp.over(socket);
+
+      const headers = {
+        'Authorization': 'Bearer ' + token
+      };
+
+      client.connect(headers, {
+      }, () => {
+        console.log('WebSocket connection established');
+        client.subscribe('/topic/posits', (message: any) => {
+          if (message.body) {
+            const newPosit = JSON.parse(message.body);
+            posits.value.push(newPosit);
+          }
+        });
+      }, (error: any) => {
+        console.error('WebSocket error: ', error);
       });
     });
 
     onUnmounted(() => {
-      socket.disconnect();
+      if (client) {
+        client.disconnect(() => {
+          console.log('WebSocket connection closed');
+        });
+      }
     });
 
     return { posits };

@@ -25,7 +25,7 @@ class ApplicationConfig(
             user?.let {
                 User.withUsername(it.email)
                     .password(it.password)
-                    .roles(*it.roles.map { role -> role.name }.toTypedArray())
+                    .roles(*it.roles.map { role -> role.name.removePrefix("ROLE_") }.toTypedArray())
                     .build()
             } ?: throw UsernameNotFoundException("User not found with email: $email")
         }
